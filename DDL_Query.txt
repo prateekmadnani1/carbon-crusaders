@@ -1,0 +1,1356 @@
+--GP4: Populated Data & Query Output
+
+CREATE TABLE UserInfo ( 
+UserID INT PRIMARY KEY, 
+FirstName VARCHAR(50), 
+LastName VARCHAR(50), 
+Age INT, 
+Gender CHAR(1), 
+BMI DECIMAL(4, 2), 
+MobileNumber VARCHAR(15), 
+EmailAddress VARCHAR(100) 
+); 
+ 
+CREATE TABLE FitnessHabit ( 
+FitnessHabitID INT PRIMARY KEY, 
+FitnessActivity VARCHAR(100), 
+EmissionAmount DECIMAL(10, 2) 
+); 
+ 
+CREATE TABLE EatingHabit ( 
+EatingHabitID INT PRIMARY KEY, 
+Food VARCHAR(100), 
+EmissionAmount DECIMAL(10, 2) 
+); 
+ 
+CREATE TABLE TransportationMode (
+TransportationModeID INT PRIMARY KEY, 
+TransportationMode VARCHAR(50), 
+EmissionAmount DECIMAL(10, 2) 
+); 
+ 
+CREATE TABLE Activity ( 
+ActivityID INT PRIMARY KEY, 
+FitnessHabitID INT, 
+EatingHabitID INT, 
+TransportationModeID INT, 
+FOREIGN KEY (FitnessHabitID) REFERENCES FitnessHabit(FitnessHabitID), 
+FOREIGN KEY (EatingHabitID) REFERENCES EatingHabit(EatingHabitID), 
+FOREIGN KEY (TransportationModeID) REFERENCES 
+TransportationMode(TransportationModeID) 
+); 
+ 
+CREATE TABLE DateTable ( 
+DateValue DATE PRIMARY KEY, 
+Day INT, 
+Month INT, 
+Year INT, 
+Quarter INT 
+); 
+ 
+CREATE TABLE DailyTracker ( 
+DailyTrackerDate DATE,
+ActivityID INT, 
+UserID INT, 
+Scores DECIMAL(10, 2), 
+PointsEarned DECIMAL(10, 2), 
+PRIMARY KEY (DailyTrackerDate, ActivityID), 
+FOREIGN KEY (DailyTrackerDate) REFERENCES DateTable(DateValue), 
+FOREIGN KEY (ActivityID) REFERENCES Activity(ActivityID), 
+FOREIGN KEY (UserID) REFERENCES UserInfo(UserID) 
+); 
+ 
+CREATE TABLE ActivityDate ( 
+ActivityId INT, 
+DailyTrackerDate DATE, 
+PRIMARY KEY (ActivityID, DailyTrackerDate), 
+FOREIGN KEY (ActivityID) REFERENCES Activity(ActivityID), 
+FOREIGN KEY (DailyTrackerDate, ActivityID) REFERENCES DailyTracker(DailyTrackerDate, ActivityID),
+FOREIGN KEY (DailyTrackerDate) REFERENCES DateTable(DateValue)
+); 
+ 
+CREATE TABLE Transaction ( 
+TransactionID INT PRIMARY KEY, 
+UserID INT, 
+TransactionDate DATE, 
+Status VARCHAR(20), 
+FOREIGN KEY (UserID) REFERENCES UserInfo(UserID),
+FOREIGN KEY (TransactionDate) REFERENCES DateTable(DateValue)
+);
+
+CREATE TABLE Redemption ( 
+RedemptionID INT PRIMARY KEY, 
+UserID INT, 
+PointsRedeemed DECIMAL(10, 2), 
+RedemptionDate DATE, 
+GiftCardValue DECIMAL(10, 2), 
+GiftCardMerchant VARCHAR(100), 
+FOREIGN KEY (UserID) REFERENCES UserInfo(UserID),
+FOREIGN KEY (RedemptionDate) REFERENCES DateTable(DateValue)
+); 
+ 
+CREATE TABLE Recommendation ( 
+RecommendationID INT PRIMARY KEY, 
+UserID INT, 
+ActivityChange VARCHAR(100), 
+EnvironmentalImpact DECIMAL(10, 2),PotentialPoints DECIMAL(10, 2), 
+FOREIGN KEY (UserID) REFERENCES UserInfo(UserID) 
+); 
+
+-- Insert data into UserInfo table
+
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (1, 'Othilie', 'Owlner', 40, 'F', 36.41, '606-851-5546', 'oowlner0@oakley.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (2, 'Ilyse', 'Andryunin', 20, 'M', 43.86, '246-112-0035', 'iandryunin1@pen.io');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (3, 'Kissiah', 'Dayborne', 62, 'F', 27.99, '772-185-4618', 'kdayborne2@zdnet.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (4, 'Ardine', 'Turnell', 65, 'F', 34.43, '116-704-2811', 'aturnell3@360.cn');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (5, 'Cammi', 'Ruseworth', 29, 'F', 34.43, '671-195-1172', 'cruseworth4@yellowpages.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (6, 'Reggie', 'Larham', 70, 'M', 27.66, '244-784-6691', 'rlarham5@archive.org');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (7, 'Monah', 'Larmor', 20, 'M', 30.48, '401-430-9939', 'mlarmor6@dmoz.org');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (8, 'Anatola', 'Ferran', 40, 'F', 28.95, '140-806-3231', 'aferran7@alexa.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (9, 'Tera', 'Wicklin', 62, 'M', 34.53, '352-247-3000', 'twicklin8@bigcartel.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (10, 'Bill', 'Le Marquand', 58, 'M', 27.44, '418-933-4757', 'blemarquand9@intel.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (11, 'Audie', 'Dishmon', 39, 'F', 30.89, '401-961-1242', 'adishmona@cam.ac.uk');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (12, 'Marney', 'Umfrey', 66, 'F', 17.92, '277-330-2683', 'mumfreyb@blogspot.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (13, 'Fredelia', 'Leverich', 27, 'M', 40.3, '226-601-4699', 'fleverichc@japanpost.jp');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (14, 'Honor', 'Hlavecek', 41, 'M', 26.48, '615-194-0493', 'hhlavecekd@upenn.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (15, 'Letitia', 'Tring', 47, 'F', 32.57, '605-254-4043', 'ltringe@sfgate.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (16, 'Bettye', 'Labeuil', 61, 'M', 17.45, '446-433-3078', 'blabeuilf@virginia.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (17, 'Blanch', 'Dougharty', 65, 'M', 20.83, '789-580-1291', 'bdoughartyg@issuu.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (18, 'Corinna', 'La Croce', 41, 'F', 37.55, '567-545-8169', 'clacroceh@sphinn.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (19, 'Lyndel', 'Norvill', 29, 'F', 18.59, '437-434-9489', 'lnorvilli@ucoz.ru');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (20, 'Elspeth', 'Attwater', 59, 'M', 35.55, '811-698-6666', 'eattwaterj@xing.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (21, 'Hally', 'Prantl', 19, 'M', 18.02, '506-116-0531', 'hprantlk@chronoengine.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (22, 'Philippine', 'Linden', 45, 'F', 28.73, '404-929-2900', 'plindenl@barnesandnoble.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (23, 'May', 'Shakle', 40, 'M', 20.47, '468-382-7516', 'mshaklem@istockphoto.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (24, 'Alix', 'Gumme', 67, 'F', 43.85, '890-115-8643', 'agummen@theglobeandmail.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (25, 'Lisetta', 'Kerrigan', 20, 'M', 37.6, '447-257-3430', 'lkerrigano@netscape.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (26, 'Carlyn', 'Calendar', 63, 'M', 44.07, '296-477-4213', 'ccalendarp@buzzfeed.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (27, 'Brandais', 'Bidwell', 32, 'F', 35.02, '256-699-4901', 'bbidwellq@amazon.co.jp');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (28, 'Maryl', 'Vahl', 67, 'M', 43.39, '402-245-3602', 'mvahlr@mtv.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (29, 'Margit', 'Carwithim', 59, 'F', 35.42, '101-865-8244', 'mcarwithims@hp.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (30, 'Keeley', 'Squirrel', 43, 'F', 32.18, '693-637-5181', 'ksquirrelt@loc.gov');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (31, 'Aubine', 'Arnaut', 44, 'M', 36.12, '831-970-0941', 'aarnautu@photobucket.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (32, 'Nada', 'Chazotte', 48, 'M', 26.76, '476-383-0940', 'nchazottev@gmpg.org');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (33, 'Ashli', 'Dever', 53, 'F', 33.58, '359-262-0325', 'adeverw@rambler.ru');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (34, 'Alisha', 'Blackboro', 59, 'M', 29.35, '682-117-1461', 'ablackborox@prweb.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (35, 'Carmita', 'Withur', 58, 'M', 19.03, '468-411-7784', 'cwithury@ocn.ne.jp');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (36, 'Lonna', 'Andress', 50, 'M', 18.16, '252-233-4837', 'landressz@nyu.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (37, 'Saraann', 'Dillistone', 26, 'M', 43.64, '526-622-2392', 'sdillistone10@liveinternet.ru');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (38, 'Phillie', 'Robuchon', 67, 'M', 35.71, '240-885-0824', 'probuchon11@so-net.ne.jp');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (39, 'Ivory', 'Denisovich', 56, 'M', 44.75, '662-367-2591', 'idenisovich12@sciencedirect.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (40, 'Terrye', 'Smithson', 46, 'F', 33.93, '517-707-3703', 'tsmithson13@msu.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (41, 'Gisela', 'Felipe', 38, 'M', 29.73, '847-767-3420', 'gfelipe14@hp.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (42, 'Joane', 'Speachley', 46, 'M', 37.93, '834-179-6731', 'jspeachley15@abc.net.au');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (43, 'Maggi', 'Blackbourn', 36, 'M', 35.58, '344-315-5233', 'mblackbourn16@wsj.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (44, 'Helenelizabeth', 'Montford', 53, 'F', 27.41, '155-369-6988', 'hmontford17@baidu.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (45, 'Miguelita', 'Egalton', 34, 'F', 34.08, '555-249-5344', 'megalton18@unc.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (46, 'Liesa', 'Widger', 25, 'M', 34.07, '279-244-8661', 'lwidger19@prweb.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (47, 'Ertha', 'Britnell', 32, 'M', 20.23, '656-201-6933', 'ebritnell1a@goo.gl');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (48, 'Dierdre', 'Holehouse', 39, 'F', 31.75, '567-959-7384', 'dholehouse1b@taobao.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (49, 'Gretta', 'Beyn', 48, 'M', 16.13, '111-659-3575', 'gbeyn1c@bigcartel.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (50, 'Salomi', 'Hughlin', 49, 'F', 35.23, '729-322-9065', 'shughlin1d@java.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (51, 'Lynnell', 'Tytterton', 34, 'F', 25.23, '505-380-6127', 'ltytterton1e@utexas.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (52, 'Lauri', 'Hubner', 43, 'M', 39.86, '888-331-7330', 'lhubner1f@apple.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (53, 'Maggi', 'Pepper', 69, 'M', 21.88, '610-236-1773', 'mpepper1g@unicef.org');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (54, 'Idalina', 'Royce', 52, 'M', 41.66, '966-712-2498', 'iroyce1h@plala.or.jp');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (55, 'Pamella', 'Ollander', 67, 'M', 33.51, '494-545-6702', 'pollander1i@trellian.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (56, 'Prissie', 'Shimuk', 69, 'M', 27.07, '469-718-2585', 'pshimuk1j@census.gov');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (57, 'Virginia', 'MacColgan', 38, 'F', 17.92, '852-668-9501', 'vmaccolgan1k@cnn.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (58, 'Cybil', 'Aslum', 37, 'F', 26.88, '793-863-6150', 'caslum1l@yale.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (59, 'Trudi', 'Hardy-Piggin', 31, 'F', 22.0, '229-649-8312', 'thardypiggin1m@ihg.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (60, 'Milli', 'Di Franceshci', 39, 'F', 37.23, '573-845-8854', 'mdifranceshci1n@twitpic.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (61, 'Kira', 'Chestnut', 45, 'F', 33.75, '844-978-4879', 'kchestnut1o@nifty.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (62, 'Marjie', 'Beszant', 56, 'M', 32.59, '555-481-4591', 'mbeszant1p@51.la');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (63, 'Lavinia', 'Leverett', 60, 'F', 34.02, '341-724-0406', 'lleverett1q@ihg.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (64, 'Dorice', 'Gimbart', 25, 'F', 37.68, '657-456-8689', 'dgimbart1r@boston.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (65, 'Hedda', 'Cordoba', 30, 'M', 17.28, '113-540-7383', 'hcordoba1s@ca.gov');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (66, 'Thekla', 'Vogelein', 67, 'F', 17.24, '848-796-3405', 'tvogelein1t@163.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (67, 'Nonie', 'Henniger', 67, 'M', 21.0, '368-297-5677', 'nhenniger1u@parallels.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (68, 'Linnet', 'Broscombe', 39, 'M', 30.54, '164-301-3802', 'lbroscombe1v@soundcloud.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (69, 'Hedwiga', 'Ianizzi', 40, 'M', 23.98, '758-227-4605', 'hianizzi1w@cnn.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (70, 'Tildi', 'Larner', 29, 'M', 27.87, '373-390-7338', 'tlarner1x@cargocollective.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (71, 'Zuzana', 'Arons', 18, 'M', 26.64, '194-605-6794', 'zarons1y@chronoengine.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (72, 'Dianna', 'Hansman', 52, 'F', 19.39, '415-729-6417', 'dhansman1z@istockphoto.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (73, 'Chiquia', 'Hairs', 65, 'M', 30.95, '817-271-9797', 'chairs20@dailymotion.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (74, 'Mona', 'Timoney', 46, 'M', 35.1, '889-314-8972', 'mtimoney21@deviantart.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (75, 'Tricia', 'Cleave', 32, 'F', 23.21, '719-988-5775', 'tcleave22@cornell.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (76, 'Arlen', 'Bullier', 62, 'M', 28.73, '354-847-0092', 'abullier23@ameblo.jp');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (77, 'Tim', 'Lorryman', 49, 'M', 30.43, '430-894-8897', 'tlorryman24@cmu.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (78, 'Fawne', 'Salvadore', 51, 'M', 35.63, '352-459-5678', 'fsalvadore25@blinklist.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (79, 'Evaleen', 'Verzey', 26, 'M', 28.11, '848-557-6624', 'everzey26@dyndns.org');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (80, 'Rosalinda', 'Webby', 68, 'F', 21.44, '762-999-5175', 'rwebby27@virginia.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (81, 'Ferne', 'Wraith', 31, 'M', 17.29, '401-747-9854', 'fwraith28@nymag.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (82, 'Christin', 'Latter', 44, 'M', 31.3, '649-801-1660', 'clatter29@aol.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (83, 'Neda', 'Dunseath', 22, 'F', 38.54, '349-824-5187', 'ndunseath2a@ucla.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (84, 'Loralie', 'Rudiger', 57, 'M', 39.27, '311-665-6728', 'lrudiger2b@ow.ly');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (85, 'Jobye', 'Gilham', 40, 'M', 16.74, '197-805-5252', 'jgilham2c@t.co');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (86, 'Briney', 'Eloi', 27, 'M', 31.84, '807-672-4946', 'beloi2d@ca.gov');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (87, 'Sal', 'Athelstan', 35, 'M', 37.52, '232-249-2728', 'sathelstan2e@pcworld.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (88, 'Britteny', 'Ebanks', 65, 'M', 31.02, '718-689-0338', 'bebanks2f@tiny.cc');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (89, 'Stephanie', 'VanBrugh', 63, 'F', 31.38, '170-154-9078', 'svanbrugh2g@oracle.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (90, 'Jaynell', 'Nears', 40, 'M', 40.31, '196-519-8287', 'jnears2h@craigslist.org');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (91, 'Consolata', 'Kryzhov', 69, 'F', 34.85, '266-161-3846', 'ckryzhov2i@statcounter.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (92, 'Adrianne', 'Timms', 69, 'F', 35.9, '392-984-0082', 'atimms2j@examiner.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (93, 'Marcia', 'Boch', 44, 'F', 36.97, '274-801-7412', 'mboch2k@auda.org.au');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (94, 'Ingaborg', 'Rozsa', 56, 'F', 21.88, '832-530-4353', 'irozsa2l@uiuc.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (95, 'Katalin', 'Reckus', 53, 'F', 37.58, '241-952-7013', 'kreckus2m@pen.io');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (96, 'Emera', 'Readwin', 59, 'M', 18.49, '606-981-9721', 'ereadwin2n@mit.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (97, 'Lynda', 'Johnys', 68, 'M', 19.89, '158-333-4254', 'ljohnys2o@comcast.net');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (98, 'Elvera', 'Hardson', 27, 'M', 32.66, '798-785-1369', 'ehardson2p@berkeley.edu');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (99, 'Alanah', 'Fennessy', 45, 'M', 18.29, '441-997-7753', 'afennessy2q@angelfire.com');
+INSERT INTO UserInfo (UserID, FirstName, LastName, Age, Gender, BMI, MobileNumber, EmailAddress) VALUES (100, 'Gustie', 'Fadden', 66, 'F', 35.53, '767-997-0907', 'gfadden2r@csmonitor.com'); 
+
+-- Insert data into FitnessHabit table 
+ 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (1, 'Running', 1.2); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (2, 'Cycling', 0.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (3, 'Streaming Music (2.5 hours)', 138); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (4, 'Computer Use (8 hr)', 686); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (5, 'Google Searches (4)', 0.8); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (6, 'Virtual Meeting (1 hour)', 1000); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (7, 'Sending Emails (per 40)', 160); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (8, 'Golf (1 round)', 10.4); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (9, 'Running (Marathon)', 8.9); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (10, 'Surfing', 14.35); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (11, 'Shower (5 mins)', 150); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (12, 'Yoga (1 hour)', 1.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (13, 'Swimming (1 hour)', 2.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (14, 'Hiking (1 hour)', 3.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (15, 'Weightlifting (1 hour)', 1.8); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (16, 'Tennis (1 hour)', 4.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (17, 'Skiing (1 hour)', 6.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (18, 'Dance Class (1 hour)', 2.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (19, 'Basketball (1 hour)', 5.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (20, 'Rowing (1 hour)', 4.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (21, 'Jogging (30 mins)', 0.6); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (22, 'Cycling (30 mins)', 0.25); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (23, 'Meditation (30 mins)', 0.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (24, 'Pilates (1 hour)', 1.2); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (25, 'Climbing (1 hour)', 5.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (26, 'Elliptical Trainer (1 hour)', 2.2); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (27, 'CrossFit (1 hour)', 4.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (28, 'Kickboxing (1 hour)', 6.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (29, 'Zumba (1 hour)', 3.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (30, 'Tai Chi (1 hour)', 1.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (31, 'Rock Climbing (1 hour)', 6.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (32, 'Horseback Riding (1 hour)', 5.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (33, 'Stand-Up Paddleboarding (1 hour)', 3.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (34, 'Kayaking (1 hour)', 4.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (35, 'Ballet (1 hour)', 3.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (36, 'Salsa Dancing (1 hour)', 2.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (37, 'Judo (1 hour)', 4.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (38, 'Aqua Aerobics (1 hour)', 2.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (39, 'Boxing (1 hour)', 5.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (40, 'Swimming Laps (1 hour)', 3.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (41, 'Running (5K)', 2.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (42, 'Cycling (5K)', 1.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (43, 'Rowing (5K)', 8.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (44, 'Walking (1 hour)', 0.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (45, 'Treadmill (1 hour)', 3.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (46, 'Stationary Bike (1 hour)', 2.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (47, 'Hula Hooping (1 hour)', 1.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (48, 'Jump Rope (1 hour)', 2.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (49, 'Trampoline (1 hour)', 3.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (50, 'Cardio Kickboxing (1 hour)', 6.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (51, 'Pilates (Mat) (1 hour)', 1.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (52, 'Pilates (Reformer) (1 hour)', 2.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (53, 'Bootcamp (1 hour)', 4.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (54, 'Jumping Jacks (30 mins)', 0.8); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (55, 'Bodyweight Exercises (1 hour)', 2.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (56, 'Aerobics (1 hour)', 3.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (57, 'Tai Chi (30 mins)', 0.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (58, 'Dance Workout (30 mins)', 1.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (59, 'Barre (1 hour)', 2.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (60, 'Body Pump (1 hour)', 4.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (61, 'Jiu-Jitsu (1 hour)', 5.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (62, 'Kickboxing (30 mins)', 3.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (63, 'Ballet (30 mins)', 1.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (64, 'Aqua Yoga (1 hour)', 1.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (65, 'Nordic Walking (1 hour)', 3.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (66, 'Kettlebell Workout (1 hour)', 4.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (67, 'Skiing (2 hours)', 12.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (68, 'Running (10K)', 4.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (69, 'Cycling (10K)', 2.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (70, 'Rowing (10K)', 12.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (71, 'Walking (5K)', 1.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (72, 'Treadmill (30 mins)', 1.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (73, 'Stationary Bike (30 mins)', 1.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (74, 'Hula Hooping (30 mins)', 0.8); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (75, 'Jump Rope (30 mins)', 1.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (76, 'Trampoline (30 mins)', 1.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (77, 'Cardio Kickboxing (30 mins)', 3.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (78, 'Pilates (Mat) (30 mins)', 0.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (79, 'Pilates (Reformer) (30 mins)', 1.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (80, 'Bootcamp (30 mins)', 2.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (81, 'Jumping Jacks (15 mins)', 0.4); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (82, 'Bodyweight Exercises (30 mins)', 1.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (83, 'Aerobics (30 mins)', 1.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (84, 'Tai Chi (15 mins)', 0.3); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (85, 'Dance Workout (15 mins)', 0.8); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (86, 'Barre (30 mins)', 1.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (87, 'Body Pump (30 mins)', 2.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (88, 'Jiu-Jitsu (30 mins)', 2.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (89, 'Kickboxing (15 mins)', 1.8); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (90, 'Ballet (15 mins)', 0.8); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (91, 'Aqua Yoga (30 mins)', 0.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (92, 'Nordic Walking (30 mins)', 1.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (93, 'Kettlebell Workout (30 mins)', 2.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (94, 'Skiing (1.5 hours)', 9.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (95, 'Running (Half Marathon)', 8.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (96, 'Cycling (Half Marathon)', 4.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (97, 'Rowing (Half Marathon)', 18.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (98, 'Walking (10K)', 3.0); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (99, 'Treadmill (1.5 hours)', 4.5); 
+INSERT INTO FitnessHabit (FitnessHabitID, FitnessActivity, EmissionAmount) VALUES (100, 'Stationary Bike (1.5 hours)', 3.0);
+
+-- Insert data into EatingHabit table
+
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (1, 'Beef', 60); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (2, 'Cheese', 21); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (3, 'Chicken', 10); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (4, 'Pork', 12); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (5, 'Milk', 10); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (6, 'Eggs', 7); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (7, 'Rice', 2); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (8, 'Potatoes', 1); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (9, 'Apples', 0.3); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (10, 'Oranges', 0.4); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (11, 'Bread', 1.5); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (12, 'Pasta', 2.0); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (13, 'Chicken Wings', 18); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (14, 'Turkey', 14); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (15, 'Tomatoes', 0.5); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (16, 'Lettuce', 0.2); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (17, 'Carrots', 0.3); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (18, 'Onions', 0.4); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (19, 'Broccoli', 0.6); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (20, 'Spinach', 0.5); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (21, 'Chicken Breast', 8); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (22, 'Salmon', 12); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (23, 'Tuna', 11);
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (24, 'Shrimp', 13); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (25, 'Yogurt', 6); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (26, 'Cottage Cheese', 27); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (27, 'Peanut Butter', 4); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (28, 'Almonds', 6); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (29, 'Cashews', 7); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (30, 'Walnuts', 5); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (31, 'Olive Oil', 9); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (32, 'Butter', 12); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (33, 'Cheddar Cheese', 25); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (34, 'Mozzarella Cheese', 28); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (35, 'Cream Cheese', 30); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (36, 'Ice Cream', 50); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (37, 'Pizza', 22);
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (38, 'Hamburgers', 70); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (39, 'Hot Dogs', 55); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (40, 'French Fries', 15); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (41, 'Tacos', 18); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (42, 'Burritos', 20); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (43, 'Sausages', 45); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (44, 'Chicken Nuggets', 25); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (45, 'Granola Bars', 12); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (46, 'Breakfast Cereal', 14); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (47, 'Oatmeal', 8); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (48, 'Pancakes', 15); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (49, 'Waffles', 20); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (50, 'Bagels', 10); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (51, 'English Muffins', 12); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (52, 'Croissants', 18); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (53, 'Doughnuts', 22); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (54, 'Muffins', 20); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (55, 'Cake', 25);
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (56, 'Cookies', 24); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (57, 'Brownies', 30); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (58, 'Pies', 35); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (59, 'Pie Crust', 28); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (60, 'Tarts', 26);
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (61, 'Breadsticks', 15); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (62, 'Pretzels', 14); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (63, 'Chips', 18); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (64, 'Popcorn', 10); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (65, 'Nuts', 7); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (66, 'Seeds', 5);
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (67, 'Trail Mix', 9); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (68, 'Smoothies', 12); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (69, 'Juices', 10); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (70, 'Sodas', 20); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (71, 'Tea', 5); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (72, 'Coffee', 8); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (73, 'Energy Drinks', 25); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (74, 'Milkshakes', 30); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (75, 'Hot Chocolate', 12); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (76, 'Lemonade', 8); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (77, 'Iced Tea', 10); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (78, 'Sports Drinks', 15); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (79, 'Water', 0.1); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (80, 'Sparkling Water', 1);
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (81, 'Honey', 5);
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (82, 'Maple Syrup', 10); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (83, 'Granola', 8); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (84, 'Yogurt Parfait', 12); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (85, 'Cereal Bars', 15); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (86, 'Milk Alternatives', 7); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (87, 'Soy Milk', 6); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (88, 'Almond Milk', 5); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (89, 'Oat Milk', 6); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (90, 'Rice Milk', 7); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (91, 'Tempeh', 8); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (92, 'Tofu', 9); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (93, 'Edamame', 4); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (94, 'Seitan', 10); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (95, 'Miso', 6); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (96, 'Nutritional Yeast', 5); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (97, 'Quinoa', 3); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (98, 'Buckwheat', 4); 
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (99, 'Barley', 5);
+INSERT INTO EatingHabit (EatingHabitID, Food, EmissionAmount) VALUES (100, 'Rye', 4);
+
+
+-- Insert data into TransportationMode table
+
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (1, 'Domestic Flight (per km)', 254);
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (2, 'Long Haul Flight (per km)', 195);
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (3, 'Car (electric per mile)', 161);
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (4, 'Bus (per mile)', 100);
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (5, 'Car (hybrid per mile)', 257);
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (6, 'Train (per mile)', 88);
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (7, 'Coach (per km)', 27);
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (8, 'Standard Car (per mile) ', 374);
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (9, 'Motorcycle', 72);
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (10, 'SUV (4 pass per km)', 55);
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (11, 'SUV (1 pass per km)', 158);
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (12, 'Bicycle (Manual per mile)', 33);
+INSERT INTO TransportationMode (TransportationModeID, TransportationMode, EmissionAmount) VALUES (13, 'Bicycle (Electric per mile)', 8); 
+
+
+
+-- Insert data into Date table
+
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-03-18', 'YYYY-MM-DD'),18,3,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-04-07', 'YYYY-MM-DD'),7,4,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-04-22', 'YYYY-MM-DD'),22,4,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-11-26', 'YYYY-MM-DD'),26,11,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-01-24', 'YYYY-MM-DD'),24,1,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-06-02', 'YYYY-MM-DD'),2,6,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-12-10', 'YYYY-MM-DD'),10,12,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-03-13', 'YYYY-MM-DD'),13,3,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-09-20', 'YYYY-MM-DD'),20,9,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-03-30', 'YYYY-MM-DD'),30,3,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-03-05', 'YYYY-MM-DD'),5,3,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-06-16', 'YYYY-MM-DD'),16,6,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-12-01', 'YYYY-MM-DD'),1,12,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-04-11', 'YYYY-MM-DD'),11,4,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-07-26', 'YYYY-MM-DD'),26,7,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-06-22', 'YYYY-MM-DD'),22,6,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-01-19', 'YYYY-MM-DD'),19,1,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-01-15', 'YYYY-MM-DD'),15,1,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-03-10', 'YYYY-MM-DD'),10,3,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-10-09', 'YYYY-MM-DD'),9,10,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-12-06', 'YYYY-MM-DD'),6,12,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-05-26', 'YYYY-MM-DD'),26,5,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-07-25', 'YYYY-MM-DD'),25,7,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-11-24', 'YYYY-MM-DD'),24,11,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-05-24', 'YYYY-MM-DD'),24,5,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-05-29', 'YYYY-MM-DD'),29,5,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-12-30', 'YYYY-MM-DD'),30,12,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-01-22', 'YYYY-MM-DD'),22,1,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-12-16', 'YYYY-MM-DD'),16,12,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-12-29', 'YYYY-MM-DD'),29,12,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-11-08', 'YYYY-MM-DD'),8,11,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-01-12', 'YYYY-MM-DD'),12,1,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-10-01', 'YYYY-MM-DD'),1,10,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-03-28', 'YYYY-MM-DD'),28,3,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-03-29', 'YYYY-MM-DD'),29,3,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-07-09', 'YYYY-MM-DD'),9,7,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-05-20', 'YYYY-MM-DD'),20,5,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'),14,7,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-02-16', 'YYYY-MM-DD'),16,2,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-01-29', 'YYYY-MM-DD'),29,1,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-07-22', 'YYYY-MM-DD'),22,7,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-06-03', 'YYYY-MM-DD'),3,6,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-06-10', 'YYYY-MM-DD'),10,6,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-09-09', 'YYYY-MM-DD'),9,9,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-09-18', 'YYYY-MM-DD'),18,9,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-12-08', 'YYYY-MM-DD'),8,12,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-07-19', 'YYYY-MM-DD'),19,7,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-08-15', 'YYYY-MM-DD'),15,8,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-11-06', 'YYYY-MM-DD'),6,11,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-02-18', 'YYYY-MM-DD'),18,2,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-01-10', 'YYYY-MM-DD'),10,1,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-11-19', 'YYYY-MM-DD'),19,11,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-04-25', 'YYYY-MM-DD'),25,4,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-05-04', 'YYYY-MM-DD'),4,5,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-06-05', 'YYYY-MM-DD'),5,6,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-12-19', 'YYYY-MM-DD'),19,12,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-05-03', 'YYYY-MM-DD'),3,5,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-08-06', 'YYYY-MM-DD'),6,8,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-04-14', 'YYYY-MM-DD'),14,4,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-06-26', 'YYYY-MM-DD'),26,6,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-06-14', 'YYYY-MM-DD'),14,6,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-08-23', 'YYYY-MM-DD'),23,8,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-02-28', 'YYYY-MM-DD'),28,2,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-01-27', 'YYYY-MM-DD'),27,1,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-05-17', 'YYYY-MM-DD'),17,5,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-03-23', 'YYYY-MM-DD'),23,3,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-10-31', 'YYYY-MM-DD'),31,10,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-12-21', 'YYYY-MM-DD'),21,12,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-02-21', 'YYYY-MM-DD'),21,2,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-11-10', 'YYYY-MM-DD'),10,11,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-08-09', 'YYYY-MM-DD'),9,8,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-01-23', 'YYYY-MM-DD'),23,1,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-08-19', 'YYYY-MM-DD'),19,8,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-09-21', 'YYYY-MM-DD'),21,9,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-12-22', 'YYYY-MM-DD'),22,12,2023,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-04-26', 'YYYY-MM-DD'),26,4,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-04-23', 'YYYY-MM-DD'),23,4,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-07-06', 'YYYY-MM-DD'),6,7,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-09-27', 'YYYY-MM-DD'),27,9,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-03-31', 'YYYY-MM-DD'),31,3,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-02-14', 'YYYY-MM-DD'),14,2,2024,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-06-30', 'YYYY-MM-DD'),30,6,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-07-20', 'YYYY-MM-DD'),20,7,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-09-24', 'YYYY-MM-DD'),24,9,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-03', 'YYYY-MM-DD'),3,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-09-03', 'YYYY-MM-DD'),3,9,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-06-28', 'YYYY-MM-DD'),28,6,2024,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-05-12', 'YYYY-MM-DD'),12,5,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-06-03', 'YYYY-MM-DD'),3,6,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-07-16', 'YYYY-MM-DD'),16,7,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-05-21', 'YYYY-MM-DD'),21,5,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-04-22', 'YYYY-MM-DD'),22,4,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-04-03', 'YYYY-MM-DD'),3,4,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-01-30', 'YYYY-MM-DD'),30,1,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-11-20', 'YYYY-MM-DD'),20,11,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-02-02', 'YYYY-MM-DD'),2,2,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-02-04', 'YYYY-MM-DD'),4,2,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-19', 'YYYY-MM-DD'),19,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-28', 'YYYY-MM-DD'),28,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-01-19', 'YYYY-MM-DD'),19,1,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-11-11', 'YYYY-MM-DD'),11,11,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-27', 'YYYY-MM-DD'),27,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-11-05', 'YYYY-MM-DD'),5,11,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-05-20', 'YYYY-MM-DD'),20,5,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-12-20', 'YYYY-MM-DD'),20,12,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-09-27', 'YYYY-MM-DD'),27,9,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-10-09', 'YYYY-MM-DD'),9,10,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-11-22', 'YYYY-MM-DD'),22,11,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-03-10', 'YYYY-MM-DD'),10,3,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-03-27', 'YYYY-MM-DD'),27,3,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-11-21', 'YYYY-MM-DD'),21,11,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-12-02', 'YYYY-MM-DD'),2,12,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-05-18', 'YYYY-MM-DD'),18,5,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-01-10', 'YYYY-MM-DD'),10,1,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-09-11', 'YYYY-MM-DD'),11,9,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-09-17', 'YYYY-MM-DD'),17,9,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-07-14', 'YYYY-MM-DD'),14,7,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-05-07', 'YYYY-MM-DD'),7,5,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-05-23', 'YYYY-MM-DD'),23,5,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-04-29', 'YYYY-MM-DD'),29,4,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-12-12', 'YYYY-MM-DD'),12,12,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-11-01', 'YYYY-MM-DD'),1,11,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-05-17', 'YYYY-MM-DD'),17,5,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-10-27', 'YYYY-MM-DD'),27,10,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-04-28', 'YYYY-MM-DD'),28,4,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-11', 'YYYY-MM-DD'),11,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-09-25', 'YYYY-MM-DD'),25,9,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-10-06', 'YYYY-MM-DD'),6,10,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-12-08', 'YYYY-MM-DD'),8,12,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-21', 'YYYY-MM-DD'),21,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-10-16', 'YYYY-MM-DD'),16,10,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-30', 'YYYY-MM-DD'),30,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-09-13', 'YYYY-MM-DD'),13,9,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-06-14', 'YYYY-MM-DD'),14,6,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-09-06', 'YYYY-MM-DD'),6,9,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-05-10', 'YYYY-MM-DD'),10,5,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-01-11', 'YYYY-MM-DD'),11,1,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-11-04', 'YYYY-MM-DD'),4,11,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-12', 'YYYY-MM-DD'),12,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-11-12', 'YYYY-MM-DD'),12,11,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-12-18', 'YYYY-MM-DD'),18,12,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-03-18', 'YYYY-MM-DD'),18,3,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-10-17', 'YYYY-MM-DD'),17,10,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-11-08', 'YYYY-MM-DD'),8,11,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-04-24', 'YYYY-MM-DD'),24,4,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-12-04', 'YYYY-MM-DD'),4,12,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-12-24', 'YYYY-MM-DD'),24,12,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-01-26', 'YYYY-MM-DD'),26,1,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-01-22', 'YYYY-MM-DD'),22,1,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-01-01', 'YYYY-MM-DD'),1,1,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-06-19', 'YYYY-MM-DD'),19,6,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-09-21', 'YYYY-MM-DD'),21,9,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-31', 'YYYY-MM-DD'),31,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-02-20', 'YYYY-MM-DD'),20,2,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-16', 'YYYY-MM-DD'),16,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-05', 'YYYY-MM-DD'),5,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-07-03', 'YYYY-MM-DD'),3,7,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-25', 'YYYY-MM-DD'),25,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-02-24', 'YYYY-MM-DD'),24,2,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-03-24', 'YYYY-MM-DD'),24,3,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-11-09', 'YYYY-MM-DD'),9,11,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-02-19', 'YYYY-MM-DD'),19,2,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-07-06', 'YYYY-MM-DD'),6,7,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-09-14', 'YYYY-MM-DD'),14,9,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-12-11', 'YYYY-MM-DD'),11,12,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-06-26', 'YYYY-MM-DD'),26,6,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-04-15', 'YYYY-MM-DD'),15,4,2023,2);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-12-17', 'YYYY-MM-DD'),17,12,2024,4);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-08-22', 'YYYY-MM-DD'),22,8,2024,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-07-07', 'YYYY-MM-DD'),7,7,2023,3);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2023-01-04', 'YYYY-MM-DD'),4,1,2023,1);
+INSERT INTO DateTable (DateValue, Day, Month, Year, Quarter) VALUES (TO_DATE('2024-12-14', 'YYYY-MM-DD'),14,12,2024,4);
+
+-- Insert data into Activity table
+
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (1, 8, 19, 8);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (2, 2, NULL, 5);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (3, 10, 4, 2);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (4, 11, 6, 9);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (5, 10, 21, NULL);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (6, 11, 11, 8);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (7, 1, 4, 3);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (8, 3, 21, 9);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (9, 3, 15, 11);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (10, 2, 10, 6);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (11, NULL, 13, 11);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (12, 11, 2, 3);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (13, 10, 17, 11);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (14, 11, NULL, 11);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (15, 4, 5, 7);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (16, NULL, 8, 5);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (17, 4, 7, 10);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (18, 4, 5, 4);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (19, 4, 15, NULL);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (20, 10, 12, 7);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (21, 7, 7, 4);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (22, 2, 11, 13);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (23, 10, 17, 1);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (24, 5, 12, 4);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (25, 11, 19, 3);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (26, 10, 1, 6);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (27, 1, 7, 13);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (28, 9, 14, 11);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (29, 6, 17, 1);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (30, 1, 6, 13);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (31, 9, 3, 2);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (32, 3, 8, 6);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (33, 6, 13, 12);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (34, 5, 17, 10);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (35, NULL, 2, 2);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (36, 4, 7, 1);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (37, 3, 6, 7);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (38, 9, NULL, 10);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (39, 6, 11, 1);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (40, 1, 16, 3);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (41, 7, NULL, 2);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (42, 7, 18, 8);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (43, 5, 15, 5);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (44, 7, 7, NULL);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (45, 5, NULL, 10);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (46, 2, 15, 5);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (47, 8, 11, 10);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (48, 3, 21, 5);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (49, 1, 1, 5);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (50, 10, 10, 13);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (51, 9, 1, 11);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (52, 5, NULL, 9);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (53, 3, 15, 10);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (54, 6, 19, 1);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (55, 7, 16, 7);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (56, 10, 2, 1);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (57, 10, 21, 13);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (58, 7, 10, 6);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (59, NULL, 15, 6);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (60, 4, 19, 13);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (61, 7, 6, 9);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (62, 3, 5, 3);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (63, 4, 13, 6);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (64, 3, 6, 10);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (65, 5, 3, 2);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (66, 2, 12, 13);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (67, 3, 20, 6);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (68, 10, 14, 1);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (69, 1, 1, 2);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (70, NULL, 2, 6);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (71, 3, 3, 8);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (72, 3, NULL, NULL);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (73, 4, 19, 9);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (74, 6, 17, 1);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (75, 2, 11, 13);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (76, 10, 5, 10);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (77, 4, 13, 5);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (78, 1, 21, 4);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (79, NULL, 11, 3);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (80, 2, 1, 8);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (81, NULL, 14, 1);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (82, 1, NULL, 12);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (83, 4, 21, 10);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (84, 9, 21, 6);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (85, 5, 18, 1);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (86, NULL, 2, 4);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (87, NULL, 17, 3);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (88, 6, 8, 9);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (89, 1, 17, 3);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (90, 2, 4, 4);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (91, 2, 19, NULL);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (92, 6, 21, 3);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (93, 4, 9, 13);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (94, 3, 7, 6);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (95, 4, 7, 12);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (96, 2, 3, 3);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (97, 8, 6, 6);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (98, 2, 8, 11);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (99, 6, 4, NULL);
+INSERT INTO Activity (ActivityID, FitnessHabitID, EatingHabitID, TransportationModeID) VALUES (100, 10, 18, 7);
+
+
+
+
+-- Insert data into DailyTracker table
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-03-18', 'YYYY-MM-DD'),1,33,56.9,14);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-04-07', 'YYYY-MM-DD'),2,40,87.1,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-04-22', 'YYYY-MM-DD'),3,26,89.3,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-11-26', 'YYYY-MM-DD'),4,16,88.9,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-01-24', 'YYYY-MM-DD'),5,1,95.7,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-02', 'YYYY-MM-DD'),6,30,73.6,18);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-10', 'YYYY-MM-DD'),7,55,91.6,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-03-13', 'YYYY-MM-DD'),8,34,86,21);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-09-20', 'YYYY-MM-DD'),9,69,84.6,21);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-03-30', 'YYYY-MM-DD'),10,58,95.3,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-03-05', 'YYYY-MM-DD'),11,30,87.6,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-16', 'YYYY-MM-DD'),12,7,83.4,21);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-01', 'YYYY-MM-DD'),13,15,86.9,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-04-11', 'YYYY-MM-DD'),14,68,84.6,21);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-07-26', 'YYYY-MM-DD'),15,70,64.3,16);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-22', 'YYYY-MM-DD'),16,12,86.6,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-01-19', 'YYYY-MM-DD'),17,77,55,14);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-01-15', 'YYYY-MM-DD'),18,88,60.7,15);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-03-10', 'YYYY-MM-DD'),19,44,65.1,16);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-10-09', 'YYYY-MM-DD'),20,96,92.7,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-06', 'YYYY-MM-DD'),21,25,79.1,20);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-02', 'YYYY-MM-DD'),22,44,99.3,25);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-05-26', 'YYYY-MM-DD'),23,26,82.1,21);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-07-25', 'YYYY-MM-DD'),24,83,89.7,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-11-24', 'YYYY-MM-DD'),25,41,60.6,15);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-05-24', 'YYYY-MM-DD'),26,79,91.9,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-05-29', 'YYYY-MM-DD'),27,85,91.6,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-30', 'YYYY-MM-DD'),28,21,87.7,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-01-22', 'YYYY-MM-DD'),29,34,32.8,8);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-16', 'YYYY-MM-DD'),30,95,99.5,25);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-03-30', 'YYYY-MM-DD'),31,80,89.5,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-29', 'YYYY-MM-DD'),32,50,88.1,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-11-08', 'YYYY-MM-DD'),33,44,43.9,11);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-01-12', 'YYYY-MM-DD'),34,89,92.8,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-10-01', 'YYYY-MM-DD'),35,72,89.2,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-03-28', 'YYYY-MM-DD'),36,87,45.1,11);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-03-29', 'YYYY-MM-DD'),37,14,91.7,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-07-09', 'YYYY-MM-DD'),38,62,96.8,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-05-20', 'YYYY-MM-DD'),39,49,37.1,9);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'),40,87,88.6,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-02-16', 'YYYY-MM-DD'),41,45,82.3,21);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-01-29', 'YYYY-MM-DD'),42,20,34.9,9);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-07-22', 'YYYY-MM-DD'),43,72,86.5,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-03', 'YYYY-MM-DD'),44,30,84.1,21);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-10', 'YYYY-MM-DD'),45,52,97.2,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-09-09', 'YYYY-MM-DD'),46,82,86.5,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-09-18', 'YYYY-MM-DD'),47,35,96.5,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-08', 'YYYY-MM-DD'),48,33,76.7,19);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-07-19', 'YYYY-MM-DD'),49,81,84.1,21);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-08-15', 'YYYY-MM-DD'),50,30,98.6,25);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-11-06', 'YYYY-MM-DD'),51,51,88.7,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-02-18', 'YYYY-MM-DD'),52,22,96.4,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-01-10', 'YYYY-MM-DD'),53,67,89.8,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-11-19', 'YYYY-MM-DD'),54,99,13.4,3);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-04-25', 'YYYY-MM-DD'),55,5,87.4,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-05-04', 'YYYY-MM-DD'),56,40,85.5,21);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-05', 'YYYY-MM-DD'),57,23,95.3,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-02', 'YYYY-MM-DD'),58,71,87.3,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-19', 'YYYY-MM-DD'),59,26,95,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-05-03', 'YYYY-MM-DD'),60,51,41.4,10);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-08-06', 'YYYY-MM-DD'),61,83,88.4,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-03', 'YYYY-MM-DD'),62,21,85,21);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-04-14', 'YYYY-MM-DD'),63,30,56.8,14);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-26', 'YYYY-MM-DD'),64,17,90.3,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-14', 'YYYY-MM-DD'),65,2,89.9,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-08-23', 'YYYY-MM-DD'),66,32,94.3,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-01-29', 'YYYY-MM-DD'),67,27,87.2,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-02-28', 'YYYY-MM-DD'),68,26,82.6,21);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-01-27', 'YYYY-MM-DD'),69,50,87.2,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-05-17', 'YYYY-MM-DD'),70,98,94.6,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-03-23', 'YYYY-MM-DD'),71,61,74.1,19);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-10-31', 'YYYY-MM-DD'),72,29,93.1,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-21', 'YYYY-MM-DD'),73,95,38.2,10);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-02-21', 'YYYY-MM-DD'),74,78,32.8,8);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-07-25', 'YYYY-MM-DD'),75,54,99.3,25);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-05-26', 'YYYY-MM-DD'),76,45,96.5,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-02', 'YYYY-MM-DD'),77,52,48.4,12);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-29', 'YYYY-MM-DD'),78,2,91.4,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-11-10', 'YYYY-MM-DD'),79,99,91.7,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-08-09', 'YYYY-MM-DD'),80,75,78.3,20);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-11-06', 'YYYY-MM-DD'),81,60,83.4,21);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-04-25', 'YYYY-MM-DD'),82,72,98.3,25);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-01-23', 'YYYY-MM-DD'),83,58,59.4,15);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-08-19', 'YYYY-MM-DD'),84,10,91.6,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-09-21', 'YYYY-MM-DD'),85,47,48.9,12);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-22', 'YYYY-MM-DD'),86,74,94,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-04-26', 'YYYY-MM-DD'),87,13,87.5,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-04-23', 'YYYY-MM-DD'),88,42,45.8,11);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-07-06', 'YYYY-MM-DD'),89,42,87.4,22);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-09-27', 'YYYY-MM-DD'),90,93,94.7,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-08', 'YYYY-MM-DD'),91,58,76.1,19);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-12-21', 'YYYY-MM-DD'),92,59,38.4,10);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-03-31', 'YYYY-MM-DD'),93,22,64.5,16);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-02-14', 'YYYY-MM-DD'),94,72,80.8,20);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-30', 'YYYY-MM-DD'),95,48,56.1,14);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-07-20', 'YYYY-MM-DD'),96,1,91.6,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-09-24', 'YYYY-MM-DD'),97,79,95.1,24);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-08-03', 'YYYY-MM-DD'),98,50,91.5,23);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2023-09-03', 'YYYY-MM-DD'),99,73,49.8,12);
+INSERT INTO DailyTracker (DailyTrackerDate, ActivityID, UserID, Scores, PointsEarned) VALUES (TO_DATE('2024-06-28', 'YYYY-MM-DD'),100,1,59.6,15);
+
+
+-- Insert data into Transaction table
+
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (1, 14, TO_DATE('2023-05-12', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (2, 10, TO_DATE('2023-06-03', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (3, 7, TO_DATE('2023-07-16', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (4, 11, TO_DATE('2023-05-21', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (5, 11, TO_DATE('2023-04-22', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (6, 19, TO_DATE('2023-04-03', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (7, 15, TO_DATE('2023-01-30', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (8, 18, TO_DATE('2024-11-20', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (9, 14, TO_DATE('2023-02-02', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (10, 3, TO_DATE('2023-02-04', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (11, 14, TO_DATE('2024-08-19', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (12, 14, TO_DATE('2024-08-28', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (13, 18, TO_DATE('2023-01-19', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (14, 20, TO_DATE('2024-11-11', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (15, 3, TO_DATE('2024-08-27', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (16, 8, TO_DATE('2024-11-05', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (17, 7, TO_DATE('2023-05-20', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (18, 10, TO_DATE('2024-12-20', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (19, 18, TO_DATE('2024-09-27', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (20, 12, TO_DATE('2024-10-09', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (21, 18, TO_DATE('2024-11-22', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (22, 5, TO_DATE('2024-08-28', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (23, 11, TO_DATE('2023-03-10', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (24, 2, TO_DATE('2024-11-20', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (25, 5, TO_DATE('2023-03-27', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (26, 16, TO_DATE('2024-11-21', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (27, 5, TO_DATE('2024-12-02', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (28, 19, TO_DATE('2023-05-18', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (29, 11, TO_DATE('2023-01-10', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (30, 4, TO_DATE('2024-09-11', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (31, 11, TO_DATE('2024-09-17', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (32, 14, TO_DATE('2023-07-14', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (33, 16, TO_DATE('2023-05-07', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (34, 3, TO_DATE('2023-05-23', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (35, 1, TO_DATE('2023-04-29', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (36, 18, TO_DATE('2024-08-28', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (37, 14, TO_DATE('2024-12-12', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (38, 12, TO_DATE('2024-11-01', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (39, 8, TO_DATE('2023-05-17', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (40, 18, TO_DATE('2024-12-20', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (41, 17, TO_DATE('2024-10-27', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (42, 5, TO_DATE('2024-08-28', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (43, 17, TO_DATE('2023-04-28', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (44, 6, TO_DATE('2024-08-11', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (45, 20, TO_DATE('2024-09-25', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (46, 4, TO_DATE('2024-10-06', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (47, 11, TO_DATE('2024-12-08', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (48, 3, TO_DATE('2024-08-21', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (49, 16, TO_DATE('2024-10-16', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (50, 11, TO_DATE('2024-08-30', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (51, 12, TO_DATE('2024-09-13', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (52, 11, TO_DATE('2023-06-14', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (53, 14, TO_DATE('2023-03-27', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (54, 19, TO_DATE('2023-05-12', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (55, 20, TO_DATE('2024-09-06', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (56, 12, TO_DATE('2023-05-10', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (57, 10, TO_DATE('2023-01-11', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (58, 14, TO_DATE('2024-11-04', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (59, 14, TO_DATE('2024-11-01', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (60, 8, TO_DATE('2024-08-12', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (61, 10, TO_DATE('2024-11-12', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (62, 9, TO_DATE('2024-12-18', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (63, 1, TO_DATE('2023-03-18', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (64, 10, TO_DATE('2024-10-17', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (65, 5, TO_DATE('2024-11-08', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (66, 10, TO_DATE('2023-04-24', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (67, 5, TO_DATE('2024-12-08', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (68, 10, TO_DATE('2024-12-04', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (69, 16, TO_DATE('2024-12-24', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (70, 16, TO_DATE('2023-01-26', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (71, 1, TO_DATE('2023-01-22', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (72, 7, TO_DATE('2023-01-01', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (73, 20, TO_DATE('2023-06-19', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (74, 6, TO_DATE('2024-09-21', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (75, 14, TO_DATE('2024-08-21', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (76, 7, TO_DATE('2024-08-31', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (77, 14, TO_DATE('2023-02-20', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (78, 8, TO_DATE('2024-08-16', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (79, 3, TO_DATE('2024-08-05', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (80, 20, TO_DATE('2023-07-03', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (81, 6, TO_DATE('2024-08-25', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (82, 11, TO_DATE('2023-02-24', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (83, 2, TO_DATE('2023-03-24', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (84, 12, TO_DATE('2024-11-09', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (85, 7, TO_DATE('2023-02-19', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (86, 3, TO_DATE('2023-07-06', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (87, 4, TO_DATE('2024-09-14', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (88, 4, TO_DATE('2024-12-11', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (89, 9, TO_DATE('2024-10-16', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (90, 18, TO_DATE('2023-05-23', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (91, 8, TO_DATE('2024-08-19', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (92, 12, TO_DATE('2023-06-26', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (93, 2, TO_DATE('2023-04-15', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (94, 1, TO_DATE('2024-12-17', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (95, 12, TO_DATE('2024-08-22', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (96, 11, TO_DATE('2023-07-07', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (97, 4, TO_DATE('2023-01-19', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (98, 2, TO_DATE('2023-01-04', 'YYYY-MM-DD'), 'Completed');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (99, 5, TO_DATE('2024-12-14', 'YYYY-MM-DD'), 'Pending');
+INSERT INTO Transaction (TransactionID, UserID, TransactionDate, Status) VALUES (100, 14, TO_DATE('2024-08-19', 'YYYY-MM-DD'), 'Completed');
+
+
+-- Insert data into Redemption table
+
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (1, 14, 11.93, TO_DATE('2023-05-12', 'YYYY-MM-DD'), 50.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (2, 10, 34.94, TO_DATE('2023-06-03', 'YYYY-MM-DD'), 50.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (3, 7, 22.98, TO_DATE('2023-07-16', 'YYYY-MM-DD'), 50.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (4, 11, 7.89, TO_DATE('2023-05-21', 'YYYY-MM-DD'), 10.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (5, 11, 25.17, TO_DATE('2023-04-22', 'YYYY-MM-DD'), 10.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (6, 19, 12.79, TO_DATE('2023-04-03', 'YYYY-MM-DD'), 25.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (7, 15, 25.03, TO_DATE('2023-01-30', 'YYYY-MM-DD'), 25.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (8, 18, 33.8, TO_DATE('2024-11-20', 'YYYY-MM-DD'), 50.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (9, 14, 41.57, TO_DATE('2023-02-02', 'YYYY-MM-DD'), 100.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (10, 3, 5.73, TO_DATE('2023-02-04', 'YYYY-MM-DD'), 10.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (11, 14, 23.68, TO_DATE('2024-08-19', 'YYYY-MM-DD'), 10.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (12, 14, 39.2, TO_DATE('2024-08-28', 'YYYY-MM-DD'), 10.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (13, 18, 45.95, TO_DATE('2023-01-19', 'YYYY-MM-DD'), 10.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (14, 20, 10.8, TO_DATE('2024-11-11', 'YYYY-MM-DD'), 10.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (15, 3, 21.61, TO_DATE('2024-08-27', 'YYYY-MM-DD'), 50.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (16, 8, 10.02, TO_DATE('2024-11-05', 'YYYY-MM-DD'), 25.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (17, 7, 47.94, TO_DATE('2023-05-20', 'YYYY-MM-DD'), 50.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (18, 10, 37.0, TO_DATE('2024-12-20', 'YYYY-MM-DD'), 25.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (19, 18, 34.85, TO_DATE('2024-09-27', 'YYYY-MM-DD'), 10.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (20, 12, 47.29, TO_DATE('2024-10-09', 'YYYY-MM-DD'), 50.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (21, 18, 35.38, TO_DATE('2024-11-22', 'YYYY-MM-DD'), 50.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (22, 5, 12.45, TO_DATE('2024-08-28', 'YYYY-MM-DD'), 100.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (23, 11, 16.63, TO_DATE('2023-03-10', 'YYYY-MM-DD'), 50.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (24, 2, 27.1, TO_DATE('2024-11-20', 'YYYY-MM-DD'), 25.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (25, 5, 47.63, TO_DATE('2023-03-27', 'YYYY-MM-DD'), 100.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (26, 16, 25.48, TO_DATE('2024-11-21', 'YYYY-MM-DD'), 100.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (27, 5, 26.33, TO_DATE('2024-12-02', 'YYYY-MM-DD'), 100.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (28, 19, 21.3, TO_DATE('2023-05-18', 'YYYY-MM-DD'), 100.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (29, 11, 25.17, TO_DATE('2023-01-10', 'YYYY-MM-DD'), 25.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (30, 4, 29.6, TO_DATE('2024-09-11', 'YYYY-MM-DD'), 10.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (31, 11, 41.17, TO_DATE('2024-09-17', 'YYYY-MM-DD'), 25.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (32, 14, 6.08, TO_DATE('2023-07-14', 'YYYY-MM-DD'), 25.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (33, 16, 5.63, TO_DATE('2023-05-07', 'YYYY-MM-DD'), 100.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (34, 3, 30.95, TO_DATE('2023-05-23', 'YYYY-MM-DD'), 100.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (35, 1, 35.43, TO_DATE('2023-04-29', 'YYYY-MM-DD'), 25.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (36, 18, 28.62, TO_DATE('2024-08-28', 'YYYY-MM-DD'), 10.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (37, 14, 36.87, TO_DATE('2024-12-12', 'YYYY-MM-DD'), 100.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (38, 12, 24.26, TO_DATE('2024-11-01', 'YYYY-MM-DD'), 10.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (39, 8, 24.82, TO_DATE('2023-05-17', 'YYYY-MM-DD'), 50.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (40, 18, 23.24, TO_DATE('2024-12-20', 'YYYY-MM-DD'), 50.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (41, 17, 37.89, TO_DATE('2024-10-27', 'YYYY-MM-DD'), 100.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (42, 5, 38.63, TO_DATE('2024-08-28', 'YYYY-MM-DD'), 10.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (43, 17, 26.17, TO_DATE('2023-04-28', 'YYYY-MM-DD'), 10.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (44, 6, 20.89, TO_DATE('2024-08-11', 'YYYY-MM-DD'), 10.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (45, 20, 14.95, TO_DATE('2024-09-25', 'YYYY-MM-DD'), 10.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (46, 4, 27.38, TO_DATE('2024-10-06', 'YYYY-MM-DD'), 50.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (47, 11, 44.22, TO_DATE('2024-12-08', 'YYYY-MM-DD'), 10.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (48, 3, 38.88, TO_DATE('2024-08-21', 'YYYY-MM-DD'), 25.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (49, 16, 8.51, TO_DATE('2024-10-16', 'YYYY-MM-DD'), 10.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (50, 11, 39.41, TO_DATE('2024-08-30', 'YYYY-MM-DD'), 25.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (51, 12, 44.67, TO_DATE('2024-09-13', 'YYYY-MM-DD'), 50.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (52, 11, 48.4, TO_DATE('2023-06-14', 'YYYY-MM-DD'), 50.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (53, 14, 23.36, TO_DATE('2023-03-27', 'YYYY-MM-DD'), 50.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (54, 19, 37.5, TO_DATE('2023-05-12', 'YYYY-MM-DD'), 25.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (55, 20, 35.52, TO_DATE('2024-09-06', 'YYYY-MM-DD'), 10.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (56, 12, 27.85, TO_DATE('2023-05-10', 'YYYY-MM-DD'), 50.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (57, 10, 45.92, TO_DATE('2023-01-11', 'YYYY-MM-DD'), 10.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (58, 14, 22.99, TO_DATE('2024-11-04', 'YYYY-MM-DD'), 25.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (59, 14, 43.07, TO_DATE('2024-11-01', 'YYYY-MM-DD'), 50.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (60, 8, 16.42, TO_DATE('2024-08-12', 'YYYY-MM-DD'), 25.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (61, 10, 9.36, TO_DATE('2024-11-12', 'YYYY-MM-DD'), 50.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (62, 9, 17.23, TO_DATE('2024-12-18', 'YYYY-MM-DD'), 100.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (63, 58, 9.79, TO_DATE('2023-03-18', 'YYYY-MM-DD'), 10.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (64, 10, 30.03, TO_DATE('2024-10-17', 'YYYY-MM-DD'), 100.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (65, 5, 12.82, TO_DATE('2024-11-08', 'YYYY-MM-DD'), 50.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (66, 10, 15.17, TO_DATE('2023-04-24', 'YYYY-MM-DD'), 25.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (67, 5, 36.65, TO_DATE('2024-12-08', 'YYYY-MM-DD'), 10.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (68, 10, 5.34, TO_DATE('2024-12-04', 'YYYY-MM-DD'), 10.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (69, 16, 15.41, TO_DATE('2024-12-24', 'YYYY-MM-DD'), 100.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (70, 16, 27.16, TO_DATE('2023-01-26', 'YYYY-MM-DD'), 25.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (71, 1, 37.83, TO_DATE('2023-01-22', 'YYYY-MM-DD'), 100.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (72, 26, 16.49, TO_DATE('2023-01-01', 'YYYY-MM-DD'), 50.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (73, 20, 29.68, TO_DATE('2023-06-19', 'YYYY-MM-DD'), 100.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (74, 6, 29.27, TO_DATE('2024-09-21', 'YYYY-MM-DD'), 50.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (75, 14, 29.11, TO_DATE('2024-08-21', 'YYYY-MM-DD'), 100.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (76, 50, 43.63, TO_DATE('2024-08-31', 'YYYY-MM-DD'), 100.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (77, 14, 31.89, TO_DATE('2023-02-20', 'YYYY-MM-DD'), 25.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (78, 8, 39.22, TO_DATE('2024-08-16', 'YYYY-MM-DD'), 10.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (79, 3, 37.7, TO_DATE('2024-08-05', 'YYYY-MM-DD'), 100.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (80, 20, 38.9, TO_DATE('2023-07-03', 'YYYY-MM-DD'), 25.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (81, 6, 38.31, TO_DATE('2024-08-25', 'YYYY-MM-DD'), 50.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (82, 11, 34.62, TO_DATE('2023-02-24', 'YYYY-MM-DD'), 10.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (83, 2, 6.1, TO_DATE('2023-03-24', 'YYYY-MM-DD'), 100.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (84, 12, 6.18, TO_DATE('2024-11-09', 'YYYY-MM-DD'), 50.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (85, 7, 14.31, TO_DATE('2023-02-19', 'YYYY-MM-DD'), 50.0, 'Starbucks');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (86, 3, 11.97, TO_DATE('2023-07-06', 'YYYY-MM-DD'), 50.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (87, 4, 8.4, TO_DATE('2024-09-14', 'YYYY-MM-DD'), 50.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (88, 4, 30.82, TO_DATE('2024-12-11', 'YYYY-MM-DD'), 25.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (89, 9, 47.64, TO_DATE('2024-10-16', 'YYYY-MM-DD'), 10.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (90, 18, 23.33, TO_DATE('2023-05-23', 'YYYY-MM-DD'), 25.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (91, 8, 19.14, TO_DATE('2024-08-19', 'YYYY-MM-DD'), 10.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (92, 12, 16.6, TO_DATE('2023-06-26', 'YYYY-MM-DD'), 10.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (93, 2, 18.79, TO_DATE('2023-04-15', 'YYYY-MM-DD'), 10.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (94, 53, 40.71, TO_DATE('2024-12-17', 'YYYY-MM-DD'), 50.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (95, 12, 5.52, TO_DATE('2024-08-22', 'YYYY-MM-DD'), 100.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (96, 11, 10.43, TO_DATE('2023-07-07', 'YYYY-MM-DD'), 25.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (97, 4, 47.14, TO_DATE('2023-01-19', 'YYYY-MM-DD'), 10.0, 'Walmart');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (98, 2, 22.95, TO_DATE('2023-01-04', 'YYYY-MM-DD'), 10.0, 'Amazon');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (99, 51, 48.68, TO_DATE('2024-12-14', 'YYYY-MM-DD'), 100.0, 'Tops');
+INSERT INTO Redemption (RedemptionID, UserID, PointsRedeemed, RedemptionDate, GiftCardValue, GiftCardMerchant)  VALUES (100, 18, 25, TO_DATE('2024-12-14', 'YYYY-MM-DD'), 25.0, 'Amazon');
+
+
+
+-- Insert data into Recommendation table
+
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (1, 1, 'Switch to Bicycle', 2.8, 15.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (2, 2, 'Reduce Meat Consumption', 3.5, 20.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (3, 3, 'Carpool to Work', 3.0, 18.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (4, 4, 'Use Reusable Bags', 1.5, 10.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (5, 5, 'Install Solar Panels', 4.2, 25.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (6, 6, 'Switch to LED Bulbs', 2.1, 12.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (7, 7, 'Reduce Water Usage', 2.5, 14.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (8, 8, 'Use Energy-Efficient Appliances', 3.8, 22.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (9, 9, 'Switch to Public Transit', 3.3, 19.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (10, 10, 'Plant a Tree', 2.7, 15.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (11, 11, 'Adopt a Plant-Based Diet', 3.4, 17.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (12, 12, 'Reduce Food Waste', 2.9, 16.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (13, 13, 'Use Refillable Water Bottles', 1.7, 9.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (14, 14, 'Install Smart Thermostats', 3.2, 18.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (15, 15, 'Support Local Farmers', 2.4, 13.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (16, 16, 'Switch to Electric Vehicles', 4.0, 21.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (17, 17, 'Use Low-Flow Showerheads', 2.1, 11.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (18, 18, 'Support Renewable Energy', 4.3, 23.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (19, 19, 'Switch to Recycled Paper Products', 1.8, 9.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (20, 20, 'Switch to Public Transport', 3.0, 17.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (21, 21, 'Participate in Community Clean-Ups', 2.6, 14.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (22, 22, 'Switch to Renewable Energy Sources', 4.4, 24.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (23, 23, 'Switch to Energy-Efficient Windows', 3.1, 18.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (24, 24, 'Use Green Cleaning Products', 2.0, 10.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (25, 25, 'Compost Organic Waste', 2.7, 14.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (26, 26, 'Support Eco-Friendly Brands', 3.5, 19.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (27, 27, 'Install Rainwater Harvesting Systems', 3.8, 20.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (28, 28, 'Switch to Sustainable Fashion', 2.3, 12.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (29, 29, 'Reduce Paper Usage', 1.9, 10.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (30, 30, 'Support Organic Farming', 3.6, 19.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (31, 31, 'Switch to Bamboo Products', 2.2, 11.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (32, 32, 'Install a Green Roof', 4.1, 22.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (33, 33, 'Switch to Solar-Powered Devices', 3.3, 18.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (34, 34, 'Participate in Car-Free Days', 2.9, 15.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (35, 35, 'Switch to Reusable Containers', 1.6, 8.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (36, 36, 'Reduce Single-Use Plastics', 2.5, 13.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (37, 37, 'Switch to Electric Buses', 3.7, 19.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (38, 38, 'Switch to Hybrid Vehicles', 3.4, 18.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (39, 39, 'Use Recycled Building Materials', 2.0, 11.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (40, 40, 'Adopt a Zero-Waste Lifestyle', 3.9, 20.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (41, 41, 'Install Energy-Efficient HVAC Systems', 4.5, 23.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (42, 42, 'Support Reforestation Projects', 4.1, 21.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (43, 43, 'Switch to Plant-Based Diet', 3.2, 17.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (44, 44, 'Install Double-Glazed Windows', 3.0, 16.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (45, 45, 'Adopt Minimalist Lifestyle', 2.1, 11.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (46, 46, 'Switch to Organic Skincare', 2.4, 12.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (47, 47, 'Adopt a Meat-Free Day', 2.8, 14.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (48, 48, 'Invest in Green Bonds', 3.0, 15.0); 
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (49, 49, 'Switch to Compostable Products', 2.8, 14.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (50, 50, 'Limit Single-Use Items', 2.2, 11.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (51, 51, 'Switch to Organic Cleaning Products', 2.2, 12.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (52, 52, 'Reduce Packaging Waste', 2.8, 14.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (53, 53, 'Use Energy-Efficient Light Fixtures', 3.1, 16.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (54, 54, 'Participate in Local Recycling Programs', 2.4, 13.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (55, 55, 'Switch to Green Energy Providers', 4.0, 22.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (56, 56, 'Use Non-Toxic Pest Control', 2.0, 11.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (57, 57, 'Reduce Single-Use Utensils', 2.3, 12.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (58, 58, 'Adopt a Plant-Based Lifestyle', 3.6, 20.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (59, 59, 'Switch to Recycled Fabrics', 2.7, 13.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (60, 60, 'Support Energy-Efficient Buildings', 3.4, 18.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (61, 61, 'Switch to Green Commuting Options', 3.2, 17.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (62, 62, 'Reduce Car Travel', 3.0, 16.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (63, 63, 'Participate in Energy Audits', 3.5, 18.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (64, 64, 'Use Water-Efficient Appliances', 2.6, 14.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (65, 65, 'Reduce Air Travel', 4.1, 22.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (66, 66, 'Install Energy-Efficient Water Heaters', 3.0, 17.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (67, 67, 'Switch to Eco-Friendly Paints', 2.2, 12.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (68, 68, 'Reduce Industrial Waste', 3.4, 19.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (69, 69, 'Support Sustainable Agriculture', 3.1, 17.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (70, 70, 'Participate in Environmental Workshops', 2.8, 15.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (71, 71, 'Use Biodegradable Products', 2.5, 13.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (72, 72, 'Adopt Digital Documentation', 1.9, 10.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (73, 73, 'Reduce Energy Consumption', 3.3, 18.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (74, 74, 'Support Local Artists', 2.0, 11.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (75, 75, 'Use Energy-Efficient Transportation', 3.2, 17.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (76, 76, 'Switch to Water-Based Paints', 2.1, 12.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (77, 77, 'Install Green Roofs', 4.0, 20.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (78, 78, 'Reduce Energy Waste', 2.7, 14.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (79, 79, 'Support Climate Action Policies', 3.6, 18.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (80, 80, 'Use Green Building Materials', 3.0, 16.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (81, 81, 'Switch to Efficient Irrigation', 2.8, 14.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (82, 82, 'Reduce Disposable Product Usage', 2.3, 13.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (83, 83, 'Participate in Green Certifications', 3.5, 19.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (84, 84, 'Use Sustainable Packaging', 2.1, 11.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (85, 85, 'Switch to Energy-Efficient Cars', 3.4, 18.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (86, 86, 'Reduce Plastic Bottle Usage', 2.6, 13.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (87, 87, 'Support Green Technology', 3.7, 19.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (88, 88, 'Switch to Organic Farming', 3.5, 17.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (89, 89, 'Use Eco-Friendly Laundry Detergents', 2.0, 11.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (90, 90, 'Participate in Local Energy Saving Programs', 2.8, 15.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (91, 91, 'Adopt a Plant-Based Diet', 3.4, 18.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (92, 92, 'Reduce Air Conditioning Use', 2.5, 12.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (93, 93, 'Support Zero-Waste Stores', 3.0, 16.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (94, 94, 'Use Efficient Lighting Systems', 2.2, 12.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (95, 95, 'Switch to Public Transportation', 3.1, 17.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (96, 96, 'Reduce Industrial Energy Use', 3.4, 19.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (97, 97, 'Use Sustainable Construction Methods', 3.5, 20.0);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (98, 98, 'Support Renewable Energy Projects', 4.2, 22.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (99, 99, 'Switch to Eco-Friendly Office Supplies', 2.1, 11.5);
+INSERT INTO Recommendation (RecommendationID, UserID, ActivityChange, EnvironmentalImpact, PotentialPoints) VALUES (100, 100, 'Participate in Carbon Offset Programs', 4.0, 21.0);
+
+-- Insert data into ActivityDate table
+
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-03-18', 'YYYY-MM-DD'), 1);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-04-07', 'YYYY-MM-DD'), 2);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-04-22', 'YYYY-MM-DD'), 3);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-11-26', 'YYYY-MM-DD'), 4);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-01-24', 'YYYY-MM-DD'), 5);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-02', 'YYYY-MM-DD'), 6);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-10', 'YYYY-MM-DD'), 7);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-03-13', 'YYYY-MM-DD'), 8);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-09-20', 'YYYY-MM-DD'), 9);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-03-30', 'YYYY-MM-DD'), 10);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-03-05', 'YYYY-MM-DD'), 11);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-16', 'YYYY-MM-DD'), 12);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-01', 'YYYY-MM-DD'), 13);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-04-11', 'YYYY-MM-DD'), 14);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-07-26', 'YYYY-MM-DD'), 15);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-22', 'YYYY-MM-DD'), 16);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-01-19', 'YYYY-MM-DD'), 17);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-01-15', 'YYYY-MM-DD'), 18);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-03-10', 'YYYY-MM-DD'), 19);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-10-09', 'YYYY-MM-DD'), 20);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-06', 'YYYY-MM-DD'), 21);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-02', 'YYYY-MM-DD'), 22);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-05-26', 'YYYY-MM-DD'), 23);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-07-25', 'YYYY-MM-DD'), 24);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-11-24', 'YYYY-MM-DD'), 25);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-05-24', 'YYYY-MM-DD'), 26);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-05-29', 'YYYY-MM-DD'), 27);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-30', 'YYYY-MM-DD'), 28);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-01-22', 'YYYY-MM-DD'), 29);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-16', 'YYYY-MM-DD'), 30);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-03-30', 'YYYY-MM-DD'), 31);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-29', 'YYYY-MM-DD'), 32);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-11-08', 'YYYY-MM-DD'), 33);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-01-12', 'YYYY-MM-DD'), 34);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-10-01', 'YYYY-MM-DD'), 35);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-03-28', 'YYYY-MM-DD'), 36);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-03-29', 'YYYY-MM-DD'), 37);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-07-09', 'YYYY-MM-DD'), 38);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-05-20', 'YYYY-MM-DD'), 39);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-07-14', 'YYYY-MM-DD'), 40);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-02-16', 'YYYY-MM-DD'), 41);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-01-29', 'YYYY-MM-DD'), 42);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-07-22', 'YYYY-MM-DD'), 43);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-03', 'YYYY-MM-DD'), 44);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-10', 'YYYY-MM-DD'), 45);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-09-09', 'YYYY-MM-DD'), 46);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-09-18', 'YYYY-MM-DD'), 47);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-08', 'YYYY-MM-DD'), 48);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-07-19', 'YYYY-MM-DD'), 49);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-08-15', 'YYYY-MM-DD'), 50);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-11-06', 'YYYY-MM-DD'), 51);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-02-18', 'YYYY-MM-DD'), 52);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-01-10', 'YYYY-MM-DD'), 53);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-11-19', 'YYYY-MM-DD'), 54);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-04-25', 'YYYY-MM-DD'), 55);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-05-04', 'YYYY-MM-DD'), 56);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-05', 'YYYY-MM-DD'), 57);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-02', 'YYYY-MM-DD'), 58);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-19', 'YYYY-MM-DD'), 59);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-05-03', 'YYYY-MM-DD'), 60);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-08-06', 'YYYY-MM-DD'), 61);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-03', 'YYYY-MM-DD'), 62);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-04-14', 'YYYY-MM-DD'), 63);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-26', 'YYYY-MM-DD'), 64);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-14', 'YYYY-MM-DD'), 65);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-08-23', 'YYYY-MM-DD'), 66);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-01-29', 'YYYY-MM-DD'), 67);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-02-28', 'YYYY-MM-DD'), 68);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-01-27', 'YYYY-MM-DD'), 69);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-05-17', 'YYYY-MM-DD'), 70);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-03-23', 'YYYY-MM-DD'), 71);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-10-31', 'YYYY-MM-DD'), 72);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-21', 'YYYY-MM-DD'), 73);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-02-21', 'YYYY-MM-DD'), 74);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-07-25', 'YYYY-MM-DD'), 75);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-05-26', 'YYYY-MM-DD'), 76);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-02', 'YYYY-MM-DD'), 77);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-29', 'YYYY-MM-DD'), 78);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-11-10', 'YYYY-MM-DD'), 79);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-08-09', 'YYYY-MM-DD'), 80);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-11-06', 'YYYY-MM-DD'), 81);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-04-25', 'YYYY-MM-DD'), 82);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-01-23', 'YYYY-MM-DD'), 83);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-08-19', 'YYYY-MM-DD'), 84);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-09-21', 'YYYY-MM-DD'), 85);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-22', 'YYYY-MM-DD'), 86);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-04-26', 'YYYY-MM-DD'), 87);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-04-23', 'YYYY-MM-DD'), 88);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-07-06', 'YYYY-MM-DD'), 89);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-09-27', 'YYYY-MM-DD'), 90);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-08', 'YYYY-MM-DD'), 91);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-12-21', 'YYYY-MM-DD'), 92);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-03-31', 'YYYY-MM-DD'), 93);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-02-14', 'YYYY-MM-DD'), 94);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-30', 'YYYY-MM-DD'), 95);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-07-20', 'YYYY-MM-DD'), 96);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-09-24', 'YYYY-MM-DD'), 97);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-08-03', 'YYYY-MM-DD'), 98);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2023-09-03', 'YYYY-MM-DD'), 99);
+INSERT INTO ActivityDate (DailyTrackerDate, ActivityId) VALUES (TO_DATE('2024-06-28', 'YYYY-MM-DD'), 100); 
+
+
+-- Find users who have earned more than 50 points, include their rank based on total points earned, display their names in uppercase, and show their choice of gift card redemption, handling null values and ordering by total points
+
+SELECT   
+    UPPER(u.FirstName) || ' ' || UPPER(u.LastName) AS FullName,   
+    SUM(d.PointsEarned) AS TotalPoints, 
+    RANK() OVER (ORDER BY SUM(d.PointsEarned) DESC) AS Rank,
+    NVL(TO_CHAR(r.GiftCardValue), 'No Redemption') AS GiftCardValue,
+    NVL(r.GiftCardMerchant, 'No Redemption') AS GiftCardMerchant
+FROM   
+    DailyTracker d   
+JOIN   
+    UserInfo u ON d.UserID = u.UserID   
+LEFT JOIN  
+    Redemption r ON u.UserID = r.UserID  
+GROUP BY   
+    u.UserID, u.FirstName, u.LastName, r.GiftCardValue, r.GiftCardMerchant  
+HAVING   
+    SUM(d.PointsEarned) > 50
+ORDER BY   
+    TotalPoints DESC;
+
+
+
+-- Find activities with emission amounts greater than 1000.0, alias the result, and order by total emissions ascending
+
+SELECT  
+    a.ActivityID AS Activity_ID,  
+    f.FitnessActivity AS Fitness_Activity,  
+    e.Food AS Food_Type,  
+    t.TransportationMode AS Transport_Mode,  
+    (f.EmissionAmount + e.EmissionAmount + t.EmissionAmount) AS Total_Emission  
+FROM  
+    Activity a  
+JOIN  
+    FitnessHabit f ON a.FitnessHabitID = f.FitnessHabitID  
+JOIN  
+    EatingHabit e ON a.EatingHabitID = e.EatingHabitID  
+JOIN  
+    TransportationMode t ON a.TransportationModeID = t.TransportationModeID  
+JOIN  
+    DailyTracker d ON a.ActivityID = d.ActivityID  
+WHERE  
+    (f.EmissionAmount + e.EmissionAmount + t.EmissionAmount) > 1000.0  
+ORDER BY  
+    Total_Emission ASC;
+
+
+
+-- Retrieve distinct user details for those with BMI over 40, format names in uppercase, email in lowercase, replace null BMI with 0.0, and order by descending BMI
+
+SELECT DISTINCT 
+    UPPER(u.FirstName) || ' ' || UPPER(u.LastName) AS FullName,  
+    LOWER(u.EmailAddress) AS Email,  
+    NVL(TO_CHAR(u.BMI, '90.9'), '0.0') AS BMI_Value
+FROM  
+    UserInfo u  
+JOIN  
+    DailyTracker d ON u.UserID = d.UserID  
+JOIN 
+    Activity a ON d.ActivityID = a.ActivityID 
+WHERE  
+    u.BMI > 40 
+ORDER BY  
+    TO_NUMBER(NVL(TO_CHAR(u.BMI, '90.9'), '0.0')) DESC;
+
+
+-- Find activities recorded in August 2024, calculate the total emission, and format the date
+
+SELECT 
+    TO_CHAR(d.DailyTrackerDate, 'DD-Mon-YYYY') AS FormattedDate, 
+    a.ActivityID, 
+    a.FitnessHabitID, 
+    a.EatingHabitID, 
+    a.TransportationModeID, 
+    (f.EmissionAmount + e.EmissionAmount + t.EmissionAmount) AS Total_Emission, 
+    u.UserID, 
+    u.FirstName || ' ' || u.LastName AS FullName 
+FROM 
+    Activity a 
+JOIN 
+    FitnessHabit f ON a.FitnessHabitID = f.FitnessHabitID 
+JOIN 
+    EatingHabit e ON a.EatingHabitID = e.EatingHabitID 
+JOIN 
+    TransportationMode t ON a.TransportationModeID = t.TransportationModeID 
+JOIN 
+    DailyTracker d ON a.ActivityID = d.ActivityID 
+JOIN 
+    UserInfo u ON d.UserID = u.UserID 
+WHERE 
+    TO_CHAR(d.DailyTrackerDate, 'MM-YYYY') = '08-2024';
+
+
+-- Display user full name, age, replace null BMI with 0.0, include points, and filter by users younger than 24
+
+SELECT  
+    u.UserID,  
+    u.FirstName || ' ' || u.LastName AS FullName,  
+    NVL(TO_CHAR(u.BMI, '90.9'), '0.0') AS BMI_Value,  
+    u.Age,  
+    SUM(d.PointsEarned) AS TotalPointsEarned  
+FROM 
+    UserInfo u  
+JOIN 
+    DailyTracker d ON u.UserID = d.UserID  
+WHERE 
+    u.Age < 24
+GROUP BY 
+    u.UserID, u.FirstName, u.LastName, u.BMI, u.Age  
+ORDER BY 
+    u.LastName;
+
+
+-- Count and display distinct redemptions per user for 2023, grouped by user and month, and ordered by month and last name
+
+SELECT DISTINCT 
+    u.UserID,  
+    u.FirstName,   
+    u.LastName,   
+    TO_CHAR(r.RedemptionDate, 'MM-YYYY') AS Month,   
+    COUNT(r.RedemptionID) OVER (PARTITION BY u.UserID, TO_CHAR(r.RedemptionDate, 'MM-YYYY')) AS RedemptionCount   
+FROM  
+    UserInfo u   
+JOIN  
+    Redemption r ON u.UserID = r.UserID   
+WHERE  
+    TO_CHAR(r.RedemptionDate, 'YYYY') = '2023' 
+ORDER BY  
+    TO_CHAR(r.RedemptionDate, 'MM-YYYY'), u.LastName;
